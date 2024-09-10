@@ -90,3 +90,53 @@ exports.deleteStudent = async (req, res) => {
   }
 };
 
+exports.getTeachers = async (req, res) => {
+  try {
+
+    //Find the student by their ID
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    //Find all classes where the student is enrolled
+    const classes = await Class.find({ students: student._id }).populate('teacher');
+
+    if (!classes || classes.length === 0) {
+      return res.status(404).json({ message: 'No classes found for this student' });
+    }
+
+    //Extract the list of teachers
+    const teachers = classes.map(cls => cls.teacher);  
+
+    //Remove duplicate teachers (if the same teacher teaches multiple classes)
+    const uniqueTeachers = [...new Set(teachers.map(teacher => teacher._id.toString()))]
+                           .map(id => teachers.find(teacher => teacher._id.toString() === id));
+
+    //Return the list of teachers
+    res.status(200).json(uniqueTeachers);
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getStudentClasses = async (req, res) => {
+  try {
+    //Find the student by their ID and populate the 'classes' field
+    const student = await Student.findById(req.params.id).populate({
+      path: 'classes', 
+      populate: { path: 'teacher' }
+    });
+
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    //If the student is found, return the list of classes they are enrolled in
+    res.status(200).json(student.classes);
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

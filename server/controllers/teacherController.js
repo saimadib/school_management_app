@@ -84,3 +84,31 @@ exports.deleteTeacher = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+//get list of students teacher is teaching to
+exports.getStudentsByTeacher = async (req, res) => {
+  try {
+    //Find the teacher by ID and populate the assignedClass field
+    const teacher = await Teacher.findById(req.params.id).populate({
+      path: 'assignedClass', 
+      populate: { path: 'students' }
+    });
+
+    if (!teacher) {
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+
+    //Gather all students from the classes the teacher is teaching
+    const students = [];
+    teacher.assignedClass.forEach(singleClass => {
+      if (singleClass.students && singleClass.students.length > 0) {
+        students.push(...singleClass.students);
+      }
+    });
+
+    res.status(200).json(students);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

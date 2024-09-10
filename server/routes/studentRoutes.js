@@ -5,7 +5,9 @@ const {
   getAllStudents, 
   getStudentById, 
   updateStudent, 
-  deleteStudent 
+  deleteStudent,
+  getTeachers,
+  getStudentClasses 
 } = require('../controllers/studentController');
 
 const {protect,authorizeRoles} =require('../middlewares/authMiddleware')
@@ -23,5 +25,7 @@ router.get('/', authorizeRoles('admin'), getAllStudents);
 
 // Both teachers and admin can view students;
 router.get('/:id', authorizeRoles('admin', 'student'), getStudentById);
+router.get('/teachers/:id',authorizeRoles('admin','student'),getTeachers);
+router.get('/classes/:id',authorizeRoles('admin','student'),getStudentClasses);
 
 module.exports = router;
