@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
 
   if(role==='admin')
   {
-    return res.status(400).json({message:"Can't register as admin"});
+    return res.status(403).json({message:"Can't register as admin"});
   }
 
   // Check if email and password are provided
@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
   try {
     // Check if user already exists
     if (await User.findOne({ email })) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(200).json({ message: 'User already exists' });
     }
 
     // Create and save the new user

@@ -11,7 +11,7 @@ const {
 const {protect,authorizeRoles} =require('../middlewares/authMiddleware')
 
 // Routes for CRUD operations
-
+router.use(protect);
 // Create a new class
 router.post('/',authorizeRoles('admin'), createClass);
 
