@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from '../components/TableComponent';
 
-const TeachersTable = ({ teachers,role }) => {
+const TeachersTable = ({ teachers,role ,setActiveComponent}) => {
   const columns = ['Name', 'Gender', 'D.O.B.', 'Contact Details','Approved', 'Salary', 'Assigned Class'];
   const data = teachers.map(teacher => ({
     'id':teacher._id,
@@ -14,7 +14,7 @@ const TeachersTable = ({ teachers,role }) => {
     'Assigned Class': teacher.assignedClass && teacher.assignedClass.length > 0 ? teacher.assignedClass.map(cls => cls.name).join(', ') : 'Not assigned'
   }));
 
-  return <Table columns={columns} data={data} role={role} type='teacher'/>;
+  return <Table columns={columns} data={data} role={role} type='teacher' setActiveComponent={setActiveComponent} />;
 };
 
 export default TeachersTable;

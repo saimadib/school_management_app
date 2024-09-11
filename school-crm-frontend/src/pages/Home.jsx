@@ -20,7 +20,7 @@ function Home() {
       <Header />
       <main className="flex-grow flex flex-col items-center justify-center p-6">
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-extrabold mb-4">Welcome to Carmel Academy</h2>
+          <h2 className="text-4xl font-extrabold mb-4">Welcome to Academy</h2>
           <p className="text-lg mb-6">Your journey towards a brighter future begins here. Manage your classes, students, and teachers effortlessly with our platform.</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link to="/login" className="bg-primary-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-primary-700 transition duration-300">Log In</Link>

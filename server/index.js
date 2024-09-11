@@ -17,10 +17,12 @@ const teacherRoutes = require('./routes/teacherRoutes')
 const studentRoutes = require('./routes/studentRoutes')
 const classRoutes = require('./routes/classRoutes')
 const authRoutes=require('./routes/authRoutes')
+const analyticsRouter=require('./routes/analyticsRouter')
 
 // Routes Middleware
 
 app.use('/api/auth', authRoutes)
+app.use('/api/analytics', analyticsRouter)
 app.use('/api/teachers', teacherRoutes)
 app.use('/api/students', studentRoutes)
 app.use('/api/classes', classRoutes)

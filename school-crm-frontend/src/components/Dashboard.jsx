@@ -13,15 +13,32 @@ import {
     getAllTeachers,
     getAllClasses,
     getTeachersClasses
-} from '../api/apiClient';;
+} from '../api/apiClient';
+
+import ClassUpdatePage from '../pages/ClassUpdatePage';
+import ClassViewPage from '../pages/ClassesViewPage';
+import StudentClassViewPage from '../pages/StudentClassViewPage'
+import StudentTeacherViewPage from '../pages/StudentTeachersViewPage';
+import StudentUpdatePage from '../pages/StudentUpdatePage';
+import StudentViewPage from '../pages/StudentViewPage';
+import TeacherUpdatePage from '../pages/TeacherUpdatePage';
+
+import { AdminDashboard } from '../pages/AdminDashboard';
+import { TeacherDashboard } from '../pages/TeacherDashboard';
+import { StudentDashboard } from '../pages/StudentDashboard';
+
+import { useRecoilValue } from 'recoil';
+import { idState } from '../atom/atom';
 
 function Dashboard() {
+
+    const id = useRecoilValue(idState);
 
     const { role } = useParams(); // Extract role from URL parameters
 
     const navigate = useNavigate();
 
-    const [activeComponent, setActiveComponent] = React.useState('dashboard'); // Initialize with 'dashboard'
+    const [activeComponent, setActiveComponent] = React.useState('Dashboard'); // Initialize with 'dashboard'
     // States for holding fetched data
     const [teachers, setTeachers] = useState([]);
     const [students, setStudents] = useState([]);
@@ -112,9 +129,6 @@ function Dashboard() {
     };
 
     const renderActiveComponent = () => {
-        if (loading) {
-            return <div>Loading...</div>; // Show loading while data is being fetched
-        }
 
         if (error) {
             return <div>{error}</div>; // Handle errors gracefully
@@ -122,13 +136,20 @@ function Dashboard() {
 
         switch (activeComponent) {
             case 'Dashboard':
-                return <div>Dashboard Content</div>; // Replace with actual Dashboard component or content
+                if (role === 'admin') {
+                    return <AdminDashboard />;
+                }
+                else if (role === 'student') {
+                    return <StudentDashboard/>
+                } else if (role === 'teacher') {
+                    return <TeacherDashboard/>
+                }
             case 'My Teachers':
-                return <TeachersTable teachers={teachers} role={role} />;
+                return <TeachersTable teachers={teachers} role={role} setActiveComponent={setActiveComponent} />;
             case 'My Students':
-                return <StudentsTable students={students} role={role} />;
+                return <StudentsTable students={students} role={role} setActiveComponent={setActiveComponent} />;
             case 'My Classes':
-                return <ClassesTable classes={classes} role={role} />;
+                return <ClassesTable classes={classes} role={role} setActiveComponent={setActiveComponent} />;
             case 'Add Classes':
                 return <Add type="classes" />;
             case 'Add Teachers':
@@ -140,6 +161,20 @@ function Dashboard() {
             case 'Logout':
                 handleLogout();
                 return null;
+            case 'ClassUpdatePage':
+                return <ClassUpdatePage id={id} />;
+            case 'StudentUpdatePage':
+                return <StudentUpdatePage id={id} />;
+            case 'TeacherUpdatePage':
+                return <TeacherUpdatePage id={id} />;
+            case 'ClassesViewPage':
+                return <ClassViewPage id={id} />;
+            case 'StudentViewPage':
+                return <StudentViewPage id={id} />;
+            case 'StudentClassViewPage':
+                return <StudentClassViewPage id={id} />;
+            case 'StudentTeachersViewPage':
+                return <StudentTeacherViewPage id={id} />;
             default:
                 return null;
         }
@@ -248,7 +283,10 @@ function Dashboard() {
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
                     <div className="mb-4">
                         <div className="flex justify-between items-center mb-2">
-                            <h2 className="text-xl font-semibold">{activeComponent}</h2>
+                            {['My Classes', 'My Teachers', 'My Students'].includes(activeComponent) && (
+                                 <h2 className="text-xl font-semibold">{activeComponent}</h2>
+                            )}
+                           
                             {['My Classes', 'My Teachers', 'My Students'].includes(activeComponent) && role === 'admin' && (
                                 <button className="bg-blue-500 text-white px-4 py-1.5 rounded" onClick={() => handleAddClick(activeComponent)}>
                                     Add

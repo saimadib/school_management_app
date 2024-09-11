@@ -68,25 +68,3 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Admin approves user
-exports.approveUser = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (user.role === 'admin') {
-      return res.status(403).json({ message: 'Cannot approve admin account' });
-    }
-
-    user.isApproved = true;
-    await user.save();
-    res.status(200).json({ message: 'User approved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};

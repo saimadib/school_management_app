@@ -1,15 +1,42 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { idState  } from '../atom/atom'; // Path to your atoms file
 
-const Table = ({ columns, data, type, role }) => {
-  const navigate = useNavigate();
+const Table = ({ columns, data, type, role, setActiveComponent }) => {
+  const [id, setID] = useRecoilState(idState);
 
   const handleButtonClick = (id) => {
-    // Determine the path based on the type and role
-    const path = role === 'admin'
-      ? `/${type}/update/${id}`
-      : `/${role}/${type}/view/${id}`;
-    navigate(path);
+  
+    setID(id);
+
+    if (role === 'admin') {
+      if (type === 'class') {
+        setActiveComponent('ClassUpdatePage')
+      }
+      else if (type === 'student') {
+        setActiveComponent('StudentUpdatePage')
+      }
+      else if (type === 'teacher') {
+        setActiveComponent('TeacherUpdatePage')
+      }
+    }
+    else if (role == 'teacher') {
+      if (type === 'class') {
+        setActiveComponent('ClassesViewPage')
+      }
+      else if (type === 'student') {
+        setActiveComponent('StudentViewPage')
+      }
+    }
+    else if (role == 'student') {
+      if (type === 'class') {
+        setActiveComponent('StudentClassViewPage')
+      }
+      else if (type === 'teacher') {
+        setActiveComponent('StudentTeachersViewPage')
+      }
+    }
   };
 
   return (
@@ -40,14 +67,14 @@ const Table = ({ columns, data, type, role }) => {
                 </td>
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <button
+                {/* <button
                   className={`text-blue-600 hover:text-blue-900 ${role === 'admin' ? '' : 'hidden'}`}
                   onClick={() => handleButtonClick(row['id'])}
                 >
                   Update
-                </button>
+                </button> */}
                 <button
-                  className={`text-green-600 hover:text-green-900 ${role !== 'admin' ? '' : 'hidden'}`}
+                  className={`text-green-600 hover:text-green-900 `}
                   onClick={() => handleButtonClick(row['id'])}
                 >
                   View

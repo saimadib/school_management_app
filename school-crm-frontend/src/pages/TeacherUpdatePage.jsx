@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiClient from '../api/apiClient'; // Adjust the path as needed
 
-const TeacherUpdatePage = () => {
-    const { id } = useParams();  // Retrieve the ID from the URL
+const TeacherUpdatePage = ({id}) => {
+   
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
