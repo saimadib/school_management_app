@@ -38,7 +38,6 @@ function SignUpForm() {
     try {
       const response = await apiClient.post('/auth/register', {
         ...formData,
-        role:'admin',
       });
       
       // Show message from backend (e.g., waiting for admin approval)
