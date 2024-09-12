@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchClasses } from '../api/classApi';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Home() {
-  const [classes, setClasses] = useState([]);
-
-  useEffect(() => {
-    async function loadClasses() {
-      const data = await fetchClasses();
-      setClasses(data);
-    }
-    loadClasses();
-  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
