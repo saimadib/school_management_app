@@ -20,6 +20,7 @@ function SignUpForm() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      role,
       [e.target.name]: e.target.value,
     });
   };
