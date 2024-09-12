@@ -3,6 +3,7 @@ dotenv.config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path=require ("path");
 const app = express();
 app.use(express.json());
 
@@ -27,11 +28,16 @@ app.use('/api/teachers', teacherRoutes)
 app.use('/api/students', studentRoutes)
 app.use('/api/classes', classRoutes)
 
+app.use(express.static("public"));
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('School Management CRM Backend');
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/public/index.html"));
 });
+
+// // Routes
+// app.get('/', (req, res) => {
+//   res.send('School Management CRM Backend');
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
