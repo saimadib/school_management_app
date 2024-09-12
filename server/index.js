@@ -30,7 +30,7 @@ app.use('/api/classes', classRoutes)
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('School Management System Backend');
+  res.send('School Management CRM Backend');
 });
 
 const PORT = process.env.PORT || 5000;
