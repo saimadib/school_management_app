@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiClient from '../api/apiClient'; // Adjust the path as needed
 
-const TeacherUpdatePage = ({id}) => {
-   
+const TeacherUpdatePage = ({ id }) => {
+
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -48,7 +48,7 @@ const TeacherUpdatePage = ({id}) => {
         // Update the details
         apiClient.put(`/teachers/${id}`, formData)
             .then(() => {
-                // Redirect to the table page after successful update
+                alert('Teacher has been successfully updated!');
                 navigate('/dashboard/admin');
             })
             .catch(error => console.error('Error updating data:', error));
@@ -59,7 +59,7 @@ const TeacherUpdatePage = ({id}) => {
         // Update the details
         apiClient.delete(`/teachers/${id}`)
             .then(() => {
-                // Redirect to the table page after successful update
+                alert('Teacher has been successfully deleted!');
                 navigate('/dashboard/admin');
             })
             .catch(error => console.error('Error updating data:', error));

@@ -61,14 +61,20 @@ const ClassUpdatePage = ({ id }) => {
       teacher: updatedData.teacher,
       students: updatedData.students
     })
-    .then(() => navigate('/dashboard/admin'))
-    .catch(error => console.error('Error updating data:', error));
+      .then(() => {
+        alert('Class has been successfully updated!');
+        navigate('/dashboard/admin');
+      })
+      .catch(error => console.error('Error updating data:', error));
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
     apiClient.delete(`/classes/${id}`)
-      .then(() => navigate('/dashboard/admin'))
+    .then(() => {
+      alert('Class has been successfully deleted!');
+      navigate('/dashboard/admin');
+    })
       .catch(error => console.error('Error deleting data:', error));
   };
 

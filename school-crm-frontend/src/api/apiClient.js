@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // Create Axios instance
 const apiClient = axios.create({
-  baseURL: 'http://ec2-13-60-18-101.eu-north-1.compute.amazonaws.com:3000/api', // Adjust according to your backend URL
+  baseURL: 'https://schoolcrm.online/api', // Adjust according to your backend URL
 });
-
+//http://ec2-13-60-18-101.eu-north-1.compute.amazonaws.com:3000/api
 // Interceptor to add token to request headers
 apiClient.interceptors.request.use(
   (config) => {
